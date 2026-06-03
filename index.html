@@ -136,6 +136,13 @@
     display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
     margin-top: 28px; padding-top: 26px; border-top: 1px solid var(--line-soft);
   }
+  .contactbar-left, .contactbar-right {
+    display: inline-flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  }
+  .contactbar-right { margin-left: auto; }
+  @media (max-width: 640px) {
+    .contactbar-right { margin-left: 0; }
+  }
   .pill {
     display: inline-flex; align-items: center; gap: 8px;
     background: var(--surface); border: 1px solid var(--line);
@@ -146,12 +153,12 @@
   a.pill:hover { color: var(--accent-ink); border-color: var(--accent); transform: translateY(-1px); }
   .pill svg { width: 15px; height: 15px; color: var(--ink-faint); }
   a.pill:hover svg { color: var(--accent-ink); }
-  .pill.masked { cursor: pointer; user-select: none; }
+  .pill.masked { user-select: none; cursor: not-allowed; opacity: .85; }
   .pill .masked-val {
-    filter: blur(5px); transition: filter .3s; letter-spacing: 1px;
+    filter: blur(5px); letter-spacing: 1px;
     font-family: "IBM Plex Mono", monospace;
+    pointer-events: none;
   }
-  .pill.revealed .masked-val { filter: blur(0); letter-spacing: 0; }
   .reveal-btn {
     display: inline-flex; align-items: center; gap: 7px;
     background: var(--accent-soft); border: 1px solid transparent;
@@ -167,6 +174,81 @@
     flex-basis: 100%; margin-top: 2px; display: flex; align-items: center; gap: 6px;
   }
   .privacy-note svg { width: 13px; height: 13px; }
+
+  /* ---------- Contact modal ---------- */
+  .modal-backdrop {
+    position: fixed; inset: 0; z-index: 100;
+    background: color-mix(in oklch, var(--bg) 30%, transparent);
+    backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center;
+    padding: 20px;
+    animation: fade-in .2s ease;
+  }
+  .modal-backdrop.open { display: flex; }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .modal {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    width: 100%; max-width: 460px;
+    padding: 28px 26px 24px;
+    animation: slide-up .25s cubic-bezier(.2,.7,.2,1);
+  }
+  .modal h3 {
+    font-family: "Space Grotesk", sans-serif; font-size: 20px; font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .modal .modal-sub {
+    font-size: 13.5px; color: var(--ink-soft); margin-bottom: 18px; text-wrap: pretty;
+  }
+  .modal .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .modal label {
+    font-family: "IBM Plex Mono", monospace; font-size: 11.5px;
+    color: var(--ink-faint); letter-spacing: .5px;
+  }
+  .modal input, .modal textarea {
+    width: 100%; font: inherit; font-size: 14px;
+    background: var(--bg); color: var(--ink);
+    border: 1px solid var(--line); border-radius: 10px;
+    padding: 10px 12px;
+    transition: border-color .2s;
+  }
+  .modal input:focus, .modal textarea:focus {
+    outline: none; border-color: var(--accent);
+  }
+  .modal textarea { resize: vertical; min-height: 76px; font-family: inherit; }
+  .modal-actions {
+    display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;
+  }
+  .btn {
+    border: 1px solid var(--line); background: var(--surface);
+    color: var(--ink); cursor: pointer;
+    font-family: "IBM Plex Mono", monospace; font-size: 12.5px; font-weight: 600;
+    padding: 9px 16px; border-radius: 10px;
+    transition: border-color .2s, color .2s, transform .15s, background .2s;
+  }
+  .btn:hover { transform: translateY(-1px); border-color: var(--accent); color: var(--accent-ink); }
+  .btn-primary {
+    background: var(--accent); color: #fff; border-color: var(--accent);
+  }
+  .btn-primary:hover { color: #fff; border-color: var(--accent); filter: brightness(1.05); }
+  .btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+  .modal-status {
+    font-family: "IBM Plex Mono", monospace; font-size: 12px;
+    margin-top: 10px; min-height: 1.2em;
+  }
+  .modal-status.error { color: oklch(0.55 0.22 25); }
+  .modal-status.ok    { color: oklch(0.55 0.18 150); }
+  .modal-success {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    padding: 14px 4px 4px; text-align: center;
+  }
+  .modal-success svg { width: 44px; height: 44px; color: oklch(0.62 0.18 150); }
+  .modal-success h3 { margin-bottom: 2px; }
+  .modal-success p { font-size: 13.5px; color: var(--ink-soft); }
 
   /* ---------- Body grid ---------- */
   .grid {
@@ -285,24 +367,65 @@
       <p class="summary" data-i18n="summary"></p>
 
       <div class="contactbar">
-        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg><span data-i18n="location"></span></span>
+        <div class="contactbar-left">
+          <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg><span data-i18n="location"></span></span>
 
-        <a class="pill" id="pill-mail" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg><span class="masked-val" id="val-mail">••••••••••••••••••••</span></a>
+          <a class="pill" href="https://github.com/" target="_blank" rel="noopener" data-edit-link="github"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"></path></svg>GitHub</a>
 
-        <a class="pill" id="pill-tel" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"></path></svg><span class="masked-val" id="val-tel">•••••••••••</span></a>
+          <a class="pill" href="https://www.linkedin.com/" target="_blank" rel="noopener" data-edit-link="linkedin"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"></path></svg>LinkedIn</a>
 
-        <a class="pill" href="https://github.com/" target="_blank" rel="noopener" data-edit-link="github"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"></path></svg>GitHub</a>
+          <button class="reveal-btn" id="reveal-btn" onclick="openContactModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Z"></path><path d="m22 6-10 7L2 6"></path></svg>
+            <span data-i18n="reveal"></span>
+          </button>
+        </div>
 
-        <a class="pill" href="https://www.linkedin.com/" target="_blank" rel="noopener" data-edit-link="linkedin"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"></path></svg>LinkedIn</a>
+        <div class="contactbar-right">
+          <span class="pill masked" aria-hidden="true" title="Solicita el contacto para recibirlo por correo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 5L2 7"></path></svg><span class="masked-val">correo@oculto.com</span></span>
 
-        <button class="reveal-btn" id="reveal-btn" onclick="revealContact()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-          <span data-i18n="reveal"></span>
-        </button>
+          <span class="pill masked" aria-hidden="true" title="Solicita el contacto para recibirlo por correo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"></path></svg><span class="masked-val">000 000 0000</span></span>
+        </div>
 
         <div class="privacy-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
           <span data-i18n="privacy"></span>
+        </div>
+      </div>
+
+      <!-- Contact request modal -->
+      <div class="modal-backdrop" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title" onclick="if(event.target===this) closeContactModal()">
+        <div class="modal">
+          <div id="modal-form-view">
+            <h3 id="contact-modal-title" data-i18n="modalTitle"></h3>
+            <p class="modal-sub" data-i18n="modalSub"></p>
+            <form id="contact-form" onsubmit="submitContact(event)">
+              <div class="field">
+                <label for="cf-email" data-i18n="modalEmail"></label>
+                <input id="cf-email" name="email" type="email" required autocomplete="email" />
+              </div>
+              <div class="field">
+                <label for="cf-name" data-i18n="modalName"></label>
+                <input id="cf-name" name="name" type="text" autocomplete="name" />
+              </div>
+              <div class="field">
+                <label for="cf-msg" data-i18n="modalMsg"></label>
+                <textarea id="cf-msg" name="message" rows="3"></textarea>
+              </div>
+              <div class="modal-status" id="modal-status"></div>
+              <div class="modal-actions">
+                <button type="button" class="btn" onclick="closeContactModal()" data-i18n="modalCancel"></button>
+                <button type="submit" class="btn btn-primary" id="modal-submit" data-i18n="modalSend"></button>
+              </div>
+            </form>
+          </div>
+          <div id="modal-success-view" class="modal-success" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="m22 4-10 10-3-3"></path></svg>
+            <h3 data-i18n="modalOkTitle"></h3>
+            <p data-i18n="modalOkBody"></p>
+            <div class="modal-actions" style="margin-top:14px;">
+              <button type="button" class="btn btn-primary" onclick="closeContactModal()" data-i18n="modalClose"></button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -347,11 +470,11 @@
   </main>
 
 <script>
-/* ============ CONTACT DATA (split to deter scrapers) ============ */
-const CONTACT = {
-  mailUser: "ing.gaytan", mailDom: "icloud.com",
-  telRaw: "8449123671", telFmt: "844 912 3671"
-};
+/* ============ CONTACT REQUEST (Web3Forms) ============
+   Get your free access key at https://web3forms.com (no signup needed —
+   they email it to you instantly). Paste it below. The visitor's request
+   will arrive in your inbox so you can reply with your contact details. */
+const WEB3FORMS_ACCESS_KEY = "61ebee47-3d38-4c8a-bd46-b0ce0b815035";
 
 /* ============ BILINGUAL CONTENT ============ */
 const DATA = {
@@ -361,9 +484,21 @@ const DATA = {
     role: "Líder Técnico de Software",
     summary: "Líder Técnico con más de 5 años de experiencia en desarrollo de software y liderazgo de equipos. Actualmente lidero un equipo de 5 personas (3 Jr y 2 Sr) y tomo decisiones que impactan el flujo de los procesos. En los últimos 3 años he modernizado sistemas legacy, desarrollado un ETL de migración en Python e implementado el control de versiones en GitHub, mejorando los procesos de liberación y desarrollo en un 200%. Me apoyo en herramientas de IA como Codex y Claude (Anthropic), con una sólida visión de negocio forjada en sectores tan diversos como el cárnico, préstamos, ventas, agricultura, gobierno y educación.",
     location: "Apodaca, Nuevo León · México",
-    reveal: "Revelar contacto",
-    revealed: "Contacto visible",
-    privacy: "Tus datos de contacto están ocultos hasta que el visitante pulse «Revelar».",
+    reveal: "Solicitar contacto",
+    privacy: "Mis datos de contacto no se publican. Pulsa «Solicitar contacto» y los recibirás por correo.",
+    modalTitle: "Solicitar mis datos de contacto",
+    modalSub: "Déjame tu correo y te responderé personalmente con mi teléfono y email.",
+    modalEmail: "Tu correo *",
+    modalName: "Tu nombre (opcional)",
+    modalMsg: "Mensaje (opcional)",
+    modalCancel: "Cancelar",
+    modalSend: "Enviar solicitud",
+    modalSending: "Enviando…",
+    modalError: "No se pudo enviar. Intenta de nuevo.",
+    modalKeyMissing: "Configura WEB3FORMS_ACCESS_KEY en el código.",
+    modalOkTitle: "¡Solicitud enviada!",
+    modalOkBody: "Recibí tu mensaje y te responderé pronto con mis datos.",
+    modalClose: "Cerrar",
     download: "Descargar PDF",
     exp: "Experiencia profesional",
     skills: "Habilidades técnicas",
@@ -424,9 +559,21 @@ const DATA = {
     role: "Software Technical Lead",
     summary: "Technical Lead with 5+ years of experience in software development and team leadership. I currently lead a team of 5 (3 junior, 2 senior) and make decisions that shape process flow. Over the past 3 years I've modernized legacy systems, built a data-migration ETL in Python and rolled out version control on GitHub, improving release and development processes by 200%. I leverage AI tools such as Codex and Claude (Anthropic), backed by strong business insight across sectors as diverse as meatpacking, lending, sales, agriculture, government and education.",
     location: "Apodaca, Nuevo León · Mexico",
-    reveal: "Reveal contact",
-    revealed: "Contact visible",
-    privacy: "Your contact details stay hidden until the visitor clicks “Reveal”.",
+    reveal: "Request contact",
+    privacy: "My contact details aren't published. Click “Request contact” and you'll get them by email.",
+    modalTitle: "Request my contact details",
+    modalSub: "Leave me your email and I'll reply personally with my phone and address.",
+    modalEmail: "Your email *",
+    modalName: "Your name (optional)",
+    modalMsg: "Message (optional)",
+    modalCancel: "Cancel",
+    modalSend: "Send request",
+    modalSending: "Sending…",
+    modalError: "Couldn't send. Please try again.",
+    modalKeyMissing: "Set WEB3FORMS_ACCESS_KEY in the code.",
+    modalOkTitle: "Request sent!",
+    modalOkBody: "I got your message and will reply soon with my details.",
+    modalClose: "Close",
     download: "Download PDF",
     exp: "Professional experience",
     skills: "Technical skills",
@@ -484,7 +631,6 @@ const DATA = {
 };
 
 /* ============ RENDER ============ */
-let revealed = false;
 let lang = "es";
 
 function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
@@ -526,9 +672,6 @@ function render(){
   // Soft skills
   document.getElementById("soft-list").innerHTML = d.softSkills.map(s => `
     <div><span class="dot"></span>${esc(s)}</div>`).join("");
-
-  // keep reveal state text
-  if (revealed) document.querySelector("#reveal-btn span").textContent = d.revealed;
 }
 
 function setLang(l){
@@ -539,24 +682,81 @@ function setLang(l){
   render();
 }
 
-function revealContact(){
-  revealed = true;
-  const mail = CONTACT.mailUser + "@" + CONTACT.mailDom;
-  const mailPill = document.getElementById("pill-mail");
-  mailPill.classList.add("revealed");
-  mailPill.href = "mailto:" + mail;
-  document.getElementById("val-mail").textContent = mail;
-
-  const telPill = document.getElementById("pill-tel");
-  telPill.classList.add("revealed");
-  telPill.href = "tel:+52" + CONTACT.telRaw;
-  document.getElementById("val-tel").textContent = CONTACT.telFmt;
-
-  const btn = document.getElementById("reveal-btn");
-  btn.querySelector("span").textContent = DATA[lang].revealed;
-  btn.style.opacity = ".55";
-  btn.style.pointerEvents = "none";
+/* ============ CONTACT MODAL ============ */
+function openContactModal(){
+  const modal = document.getElementById("contact-modal");
+  document.getElementById("modal-form-view").style.display = "";
+  document.getElementById("modal-success-view").style.display = "none";
+  document.getElementById("contact-form").reset();
+  document.getElementById("modal-status").textContent = "";
+  document.getElementById("modal-status").className = "modal-status";
+  modal.classList.add("open");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => document.getElementById("cf-email").focus(), 80);
 }
+
+function closeContactModal(){
+  document.getElementById("contact-modal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+async function submitContact(ev){
+  ev.preventDefault();
+  const d = DATA[lang];
+  const status = document.getElementById("modal-status");
+  const submitBtn = document.getElementById("modal-submit");
+
+  if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === "YOUR_WEB3FORMS_ACCESS_KEY") {
+    status.textContent = d.modalKeyMissing;
+    status.className = "modal-status error";
+    return;
+  }
+
+  const email = document.getElementById("cf-email").value.trim();
+  const name  = document.getElementById("cf-name").value.trim();
+  const msg   = document.getElementById("cf-msg").value.trim();
+
+  submitBtn.disabled = true;
+  const originalLabel = submitBtn.textContent;
+  submitBtn.textContent = d.modalSending;
+  status.textContent = "";
+  status.className = "modal-status";
+
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_ACCESS_KEY,
+        subject: "[CV] Solicitud de contacto desde " + (name || email),
+        from_name: name || email,
+        replyto: email,
+        email,
+        name,
+        message: msg || "(sin mensaje)"
+      })
+    });
+    const json = await res.json();
+    if (json.success) {
+      document.getElementById("modal-form-view").style.display = "none";
+      document.getElementById("modal-success-view").style.display = "";
+    } else {
+      throw new Error(json.message || "submit_failed");
+    }
+  } catch (err) {
+    status.textContent = d.modalError;
+    status.className = "modal-status error";
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalLabel;
+  }
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && document.getElementById("contact-modal").classList.contains("open")) {
+    closeContactModal();
+  }
+});
 
 /* ============ THEME ============ */
 function applyTheme(t){
