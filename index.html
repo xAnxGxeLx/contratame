@@ -260,9 +260,9 @@
     display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;
   }
   .project-card {
-    min-width: 0; overflow: hidden; border: 1px solid var(--line);
+    display: block; min-width: 0; overflow: hidden; border: 1px solid var(--line);
     border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow);
-    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    color: inherit; text-decoration: none; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
   }
   .project-card:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 14px 36px var(--accent-soft); }
   .project-visual {
@@ -582,9 +582,9 @@ const DATA = {
     soft: "Habilidades blandas",
     footer: "Currículum interactivo · Español / English",
     portfolioCases: [
-      { type:"compare", label:"Modernización de sistemas", title:"Operación empresarial · antes → después", description:"De pantallas densas y procesos dispersos a una experiencia más clara, mantenible y enfocada en el usuario.", result:"UX/UI y flujos operativos modernizados" },
-      { type:"pos", label:"Producto SaaS en producción", title:"SWIPY POS", description:"Plataforma comercial de punto de venta con aplicación de escritorio, gestión operativa y una arquitectura preparada para crecer.", result:".NET 8 · POS · SaaS · pagos" },
-      { type:"ai", label:"Ingeniería aplicada con IA", title:"Flujos de desarrollo asistidos", description:"Contexto de repositorio, agentes de código y validaciones automatizadas aplicados a construcción, documentación y optimización.", result:"Trazabilidad técnica con revisión humana" }
+      { type:"compare", href:"projects/?project=modernization", label:"Modernización de sistemas", title:"Préstamo Express · antes → después", description:"De pantallas densas y procesos dispersos a una experiencia más clara, mantenible y enfocada en el usuario.", result:"UX/UI y flujos operativos modernizados" },
+      { type:"pos", href:"https://daesa-software.github.io/swipy/", external:true, label:"Producto SaaS en producción", title:"SWIPY POS", description:"Plataforma comercial de punto de venta con aplicación de escritorio, gestión operativa y una arquitectura preparada para crecer.", result:".NET 8 · POS · SaaS · pagos" },
+      { type:"ai", href:"projects/?project=ai-workflows", label:"Ingeniería aplicada con IA", title:"Flujos de desarrollo asistidos", description:"Contexto de repositorio, agentes de código y validaciones automatizadas aplicados a construcción, documentación y optimización.", result:"Trazabilidad técnica con revisión humana" }
     ],
     experience: [
       { title:"Technical Lead", co:"Préstamo Express", date:"Abr 2023 – Actualidad", points:[
@@ -671,9 +671,9 @@ const DATA = {
     soft: "Soft skills",
     footer: "Interactive résumé · Español / English",
     portfolioCases: [
-      { type:"compare", label:"System modernization", title:"Business operations · before → after", description:"From dense screens and fragmented processes to a clearer, maintainable experience focused on the user.", result:"Modernized UX/UI and operational workflows" },
-      { type:"pos", label:"SaaS product in production", title:"SWIPY POS", description:"Commercial point-of-sale platform with a desktop application, operational management and an architecture designed to grow.", result:".NET 8 · POS · SaaS · payments" },
-      { type:"ai", label:"Applied AI engineering", title:"AI-assisted development workflows", description:"Repository context, coding agents and automated validation applied to building, documenting and optimizing software.", result:"Technical traceability with human review" }
+      { type:"compare", href:"projects/?project=modernization", label:"System modernization", title:"Préstamo Express · before → after", description:"From dense screens and fragmented processes to a clearer, maintainable experience focused on the user.", result:"Modernized UX/UI and operational workflows" },
+      { type:"pos", href:"https://daesa-software.github.io/swipy/", external:true, label:"SaaS product in production", title:"SWIPY POS", description:"Commercial point-of-sale platform with a desktop application, operational management and an architecture designed to grow.", result:".NET 8 · POS · SaaS · payments" },
+      { type:"ai", href:"projects/?project=ai-workflows", label:"Applied AI engineering", title:"AI-assisted development workflows", description:"Repository context, coding agents and automated validation applied to building, documenting and optimizing software.", result:"Technical traceability with human review" }
     ],
     experience: [
       { title:"Technical Lead", co:"Préstamo Express", date:"Apr 2023 – Present", points:[
@@ -771,7 +771,7 @@ function render(){
 
   // Portfolio
   document.getElementById("portfolio-grid").innerHTML = d.portfolioCases.map(p => `
-    <article class="project-card">
+    <a class="project-card" href="${esc(p.href)}" aria-label="${esc(p.title)}"${p.external ? ' target="_blank" rel="noopener"' : ""}>
       ${projectVisual(p.type, p.label)}
       <div class="project-copy">
         <div class="project-meta">${esc(p.label)}</div>
@@ -779,7 +779,7 @@ function render(){
         <p>${esc(p.description)}</p>
         <span class="project-result">${esc(p.result)}</span>
       </div>
-    </article>`).join("");
+    </a>`).join("");
 
   // Experience
   document.getElementById("exp-list").innerHTML = d.experience.map(j => `
