@@ -98,6 +98,13 @@
   }
   .icon-btn:hover { color: var(--accent-ink); border-color: var(--accent); transform: translateY(-1px); }
   .icon-btn svg { width: 17px; height: 17px; }
+  .hire-link {
+    display: inline-flex; align-items: center; gap: 8px; border-radius: 999px;
+    padding: 8px 14px; background: var(--accent); color: #fff; text-decoration: none;
+    font: 600 12.5px "IBM Plex Mono", monospace; transition: transform .15s, filter .2s;
+  }
+  .hire-link:hover { color: #fff; transform: translateY(-1px); filter: brightness(1.06); }
+  .hire-link svg { width: 14px; height: 14px; }
 
   .btn-pdf {
     display: inline-flex; align-items: center; gap: 7px;
@@ -419,6 +426,9 @@
         <button id="btn-es" aria-pressed="true" onclick="setLang('es')">ES</button>
         <button id="btn-en" aria-pressed="false" onclick="setLang('en')">EN</button>
       </div>
+      <a class="icon-btn" href="#portfolio-title" aria-label="Ver portafolio" title="Ver portafolio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 8 4.5v9L12 20l-8-4.5v-9L12 2Z"></path><path d="m4 6.5 8 4.5 8-4.5M12 11v9"></path></svg>
+      </a>
       <button class="icon-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Tema" title="Tema claro / oscuro">
         <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
       </button>
@@ -454,6 +464,10 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Z"></path><path d="m22 6-10 7L2 6"></path></svg>
             <span data-i18n="reveal"></span>
           </button>
+          <a class="hire-link" href="contratame/">
+            <span data-i18n="hire"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+          </a>
         </div>
 
         <div class="privacy-note">
@@ -567,6 +581,7 @@ const DATA = {
     summary: "Líder Técnico especializado en arquitectura de software, modernización de sistemas legacy, productos SaaS e ingeniería aplicada con IA. Experiencia liderando equipos multidisciplinarios, diseñando flujos de desarrollo asistidos por agentes y entregando soluciones con impacto en operaciones, productividad y escalabilidad. Actualmente lidero un equipo de desarrollo, opero un producto SaaS propio en producción y aplico IA para construir, documentar, validar y optimizar software.",
     location: "Apodaca, Nuevo León · México",
     reveal: "Solicitar contacto",
+    hire: "Contrátame",
     privacy: "Mis datos de contacto no se publican. Pulsa «Solicitar contacto» y los recibirás por correo.",
     modalTitle: "Solicitar mis datos de contacto",
     modalSub: "Déjame tu correo y te responderé personalmente con mi teléfono y email.",
@@ -599,7 +614,8 @@ const DATA = {
     ],
     creations: [
       { type:"image", image:"assets/portfolio/pex-evaluador.png", href:"projects/?project=pex-evaluator", label:"Sistema creado desde cero", title:"PEX Evaluador", description:"Consulta rápida de productos disponibles en distintos puntos de venta, con filtros por marca, sucursal y antigüedad.", result:"Inventario disponible y precios en una sola vista" },
-      { type:"image", image:"assets/portfolio/adminpaq-diagnostico.png", href:"projects/?project=adminpaq-migration", label:"Integración de inventarios", title:"Centro de diagnóstico AdminPAQ", description:"Flujo controlado para preparar, validar y exportar movimientos de inventario hacia AdminPAQ.", result:"Validación, respaldo y exportación con confirmación" }
+      { type:"image", image:"assets/portfolio/adminpaq-diagnostico.png", href:"projects/?project=adminpaq-migration", label:"Integración de inventarios", title:"Centro de diagnóstico AdminPAQ", description:"Flujo controlado para preparar, validar y exportar movimientos de inventario hacia AdminPAQ.", result:"Validación, respaldo y exportación con confirmación" },
+      { type:"image", image:"assets/portfolio/sipe-vino-worker.png", href:"projects/?project=sipe-vino-worker", label:"Continuidad durante migración", title:"Worker SIPE → VINO", description:"Servicio puente que mantiene operando el sistema legado mientras la migración al sistema moderno se concreta.", result:"Monitoreo, reintentos y sincronización de eventos" }
     ],
     experience: [
       { title:"Technical Lead", co:"Préstamo Express", date:"Abr 2023 – Actualidad", points:[
@@ -662,6 +678,7 @@ const DATA = {
     summary: "Technical Lead specialized in software architecture, legacy system modernization, SaaS products and applied AI engineering. Experienced leading multidisciplinary teams, designing agent-assisted development workflows and delivering solutions with measurable impact on operations, productivity and scalability. I currently lead a software development team, operate my own SaaS product in production and use AI to build, document, validate and optimize software.",
     location: "Apodaca, Nuevo León · Mexico",
     reveal: "Request contact",
+    hire: "Hire me",
     privacy: "My contact details aren't published. Click “Request contact” and you'll get them by email.",
     modalTitle: "Request my contact details",
     modalSub: "Leave me your email and I'll reply personally with my phone and address.",
@@ -694,7 +711,8 @@ const DATA = {
     ],
     creations: [
       { type:"image", image:"assets/portfolio/pex-evaluador.png", href:"projects/?project=pex-evaluator", label:"System built from scratch", title:"PEX Evaluator", description:"Fast lookup of products available across sales locations, with brand, branch and aging filters.", result:"Available inventory and pricing in one view" },
-      { type:"image", image:"assets/portfolio/adminpaq-diagnostico.png", href:"projects/?project=adminpaq-migration", label:"Inventory integration", title:"AdminPAQ diagnostic center", description:"Controlled flow to prepare, validate and export inventory movements into AdminPAQ.", result:"Validation, backup and confirmed export" }
+      { type:"image", image:"assets/portfolio/adminpaq-diagnostico.png", href:"projects/?project=adminpaq-migration", label:"Inventory integration", title:"AdminPAQ diagnostic center", description:"Controlled flow to prepare, validate and export inventory movements into AdminPAQ.", result:"Validation, backup and confirmed export" },
+      { type:"image", image:"assets/portfolio/sipe-vino-worker.png", href:"projects/?project=sipe-vino-worker", label:"Migration continuity", title:"SIPE → VINO worker", description:"Bridge service that keeps the legacy system operating while migration to the modern system is completed.", result:"Monitoring, retries and event synchronization" }
     ],
     experience: [
       { title:"Technical Lead", co:"Préstamo Express", date:"Apr 2023 – Present", points:[
@@ -955,6 +973,10 @@ function toggleTheme(){
   applyTheme(savedTheme);
   const savedLang = localStorage.getItem("cv-lang") || "es";
   setLang(savedLang);
+
+  if (new URLSearchParams(window.location.search).get("contact") === "1") {
+    setTimeout(openContactModal, 120);
+  }
 
   // entrance animations
   if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
