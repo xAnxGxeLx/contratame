@@ -252,6 +252,7 @@
 
   /* ---------- Body grid ---------- */
   .portfolio-section { margin-top: 62px; }
+  .creations-section { margin-top: 44px; }
   .portfolio-intro {
     max-width: 62ch; margin: -8px 0 24px;
     color: var(--ink-soft); font-size: 15px; text-wrap: pretty;
@@ -269,6 +270,8 @@
     position: relative; min-height: 212px; overflow: hidden; padding: 16px;
     background: linear-gradient(145deg, color-mix(in oklch, var(--accent) 15%, var(--bg)), var(--chip));
   }
+  .project-visual.with-shot { padding: 0; background: var(--chip); }
+  .project-screenshot { display: block; width: 100%; height: 212px; object-fit: cover; object-position: top; }
   .project-visual::after {
     content: ""; position: absolute; width: 150px; height: 150px; border-radius: 999px;
     right: -65px; bottom: -75px; background: var(--accent-soft); filter: blur(2px);
@@ -391,7 +394,7 @@
 
   /* Print */
   @media print {
-    .topbar, footer, .reveal-btn, .icon-btn, .btn-pdf, .lang-toggle, .portfolio-section { display: none !important; }
+    .topbar, footer, .reveal-btn, .icon-btn, .btn-pdf, .lang-toggle, .portfolio-section, .creations-section { display: none !important; }
     body { background: #fff; }
     .page { padding: 0; max-width: none; }
     .card { box-shadow: none; }
@@ -503,11 +506,17 @@
       <div class="portfolio-grid" id="portfolio-grid"></div>
     </section>
 
+    <section class="creations-section reveal-anim" aria-labelledby="creations-title">
+      <h2 class="section-title" id="creations-title"><span class="idx mono">02</span> <span data-i18n="creationsTitle"></span></h2>
+      <p class="portfolio-intro" data-i18n="creationsIntro"></p>
+      <div class="portfolio-grid" id="creations-grid"></div>
+    </section>
+
     <div class="grid">
       <!-- MAIN COLUMN -->
       <div class="col-main">
         <section class="section reveal-anim">
-          <h2 class="section-title"><span class="idx mono">02</span> <span data-i18n="exp"></span></h2>
+          <h2 class="section-title"><span class="idx mono">03</span> <span data-i18n="exp"></span></h2>
           <div id="exp-list"></div>
         </section>
       </div>
@@ -515,22 +524,22 @@
       <!-- SIDEBAR -->
       <aside class="col-side">
         <section class="section reveal-anim">
-          <h2 class="section-title"><span class="idx mono">03</span> <span data-i18n="skills"></span></h2>
+          <h2 class="section-title"><span class="idx mono">04</span> <span data-i18n="skills"></span></h2>
           <div class="card" id="skills-card"></div>
         </section>
 
         <section class="section reveal-anim">
-          <h2 class="section-title"><span class="idx mono">04</span> <span data-i18n="edu"></span></h2>
+          <h2 class="section-title"><span class="idx mono">05</span> <span data-i18n="edu"></span></h2>
           <div class="card" id="edu-card"></div>
         </section>
 
         <section class="section reveal-anim">
-          <h2 class="section-title"><span class="idx mono">05</span> <span data-i18n="certs"></span></h2>
+          <h2 class="section-title"><span class="idx mono">06</span> <span data-i18n="certs"></span></h2>
           <div class="card" id="certs-card"></div>
         </section>
 
         <section class="section reveal-anim">
-          <h2 class="section-title"><span class="idx mono">06</span> <span data-i18n="soft"></span></h2>
+          <h2 class="section-title"><span class="idx mono">07</span> <span data-i18n="soft"></span></h2>
           <div class="card"><div class="soft-list" id="soft-list"></div></div>
         </section>
       </aside>
@@ -576,6 +585,8 @@ const DATA = {
     exp: "Experiencia profesional",
     portfolio: "Casos seleccionados",
     portfolioIntro: "Una muestra visual del tipo de producto y transformación que construyo: sistemas más claros para operar, plataformas listas para crecer y flujos de ingeniería asistidos por IA.",
+    creationsTitle: "Creaciones de producto",
+    creationsIntro: "Sistemas creados desde cero para resolver necesidades operativas específicas: consulta comercial de inventario y procesos seguros de integración con AdminPAQ.",
     skills: "Habilidades técnicas",
     edu: "Educación",
     certs: "Certificaciones",
@@ -585,6 +596,10 @@ const DATA = {
       { type:"compare", href:"projects/?project=modernization", label:"Modernización de sistemas", title:"Préstamo Express · antes → después", description:"De pantallas densas y procesos dispersos a una experiencia más clara, mantenible y enfocada en el usuario.", result:"UX/UI y flujos operativos modernizados" },
       { type:"pos", href:"https://daesa-software.github.io/swipy/", external:true, label:"Producto SaaS en producción", title:"SWIPY POS", description:"Plataforma comercial de punto de venta con aplicación de escritorio, gestión operativa y una arquitectura preparada para crecer.", result:".NET 8 · POS · SaaS · pagos" },
       { type:"ai", href:"projects/?project=ai-workflows", label:"Ingeniería aplicada con IA", title:"Flujos de desarrollo asistidos", description:"Contexto de repositorio, agentes de código y validaciones automatizadas aplicados a construcción, documentación y optimización.", result:"Trazabilidad técnica con revisión humana" }
+    ],
+    creations: [
+      { type:"image", image:"assets/portfolio/pex-evaluador.png", href:"projects/?project=pex-evaluator", label:"Sistema creado desde cero", title:"PEX Evaluador", description:"Consulta rápida de productos disponibles en distintos puntos de venta, con filtros por marca, sucursal y antigüedad.", result:"Inventario disponible y precios en una sola vista" },
+      { type:"image", image:"assets/portfolio/adminpaq-diagnostico.png", href:"projects/?project=adminpaq-migration", label:"Integración de inventarios", title:"Centro de diagnóstico AdminPAQ", description:"Flujo controlado para preparar, validar y exportar movimientos de inventario hacia AdminPAQ.", result:"Validación, respaldo y exportación con confirmación" }
     ],
     experience: [
       { title:"Technical Lead", co:"Préstamo Express", date:"Abr 2023 – Actualidad", points:[
@@ -665,6 +680,8 @@ const DATA = {
     exp: "Professional experience",
     portfolio: "Selected work",
     portfolioIntro: "A visual sample of the products and transformations I build: clearer operational systems, scalable platforms and AI-assisted engineering workflows.",
+    creationsTitle: "Product creations",
+    creationsIntro: "Systems built from scratch for specific operational needs: commercial inventory lookup and secure AdminPAQ integration processes.",
     skills: "Technical skills",
     edu: "Education",
     certs: "Certifications",
@@ -674,6 +691,10 @@ const DATA = {
       { type:"compare", href:"projects/?project=modernization", label:"System modernization", title:"Préstamo Express · before → after", description:"From dense screens and fragmented processes to a clearer, maintainable experience focused on the user.", result:"Modernized UX/UI and operational workflows" },
       { type:"pos", href:"https://daesa-software.github.io/swipy/", external:true, label:"SaaS product in production", title:"SWIPY POS", description:"Commercial point-of-sale platform with a desktop application, operational management and an architecture designed to grow.", result:".NET 8 · POS · SaaS · payments" },
       { type:"ai", href:"projects/?project=ai-workflows", label:"Applied AI engineering", title:"AI-assisted development workflows", description:"Repository context, coding agents and automated validation applied to building, documenting and optimizing software.", result:"Technical traceability with human review" }
+    ],
+    creations: [
+      { type:"image", image:"assets/portfolio/pex-evaluador.png", href:"projects/?project=pex-evaluator", label:"System built from scratch", title:"PEX Evaluator", description:"Fast lookup of products available across sales locations, with brand, branch and aging filters.", result:"Available inventory and pricing in one view" },
+      { type:"image", image:"assets/portfolio/adminpaq-diagnostico.png", href:"projects/?project=adminpaq-migration", label:"Inventory integration", title:"AdminPAQ diagnostic center", description:"Controlled flow to prepare, validate and export inventory movements into AdminPAQ.", result:"Validation, backup and confirmed export" }
     ],
     experience: [
       { title:"Technical Lead", co:"Préstamo Express", date:"Apr 2023 – Present", points:[
@@ -736,8 +757,12 @@ let lang = "es";
 
 function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
-function projectVisual(type, label){
+function projectVisual(type, label, image){
   const tag = `<span class="visual-label">${esc(label)}</span>`;
+  if (type === "image") return `
+    <div class="project-visual with-shot">${tag}
+      <img class="project-screenshot" src="${esc(image)}" alt="" />
+    </div>`;
   if (type === "compare") return `
     <div class="project-visual">${tag}
       <div class="compare-frames" aria-hidden="true">
@@ -772,7 +797,19 @@ function render(){
   // Portfolio
   document.getElementById("portfolio-grid").innerHTML = d.portfolioCases.map(p => `
     <a class="project-card" href="${esc(p.href)}" aria-label="${esc(p.title)}"${p.external ? ' target="_blank" rel="noopener"' : ""}>
-      ${projectVisual(p.type, p.label)}
+      ${projectVisual(p.type, p.label, p.image)}
+      <div class="project-copy">
+        <div class="project-meta">${esc(p.label)}</div>
+        <h3>${esc(p.title)}</h3>
+        <p>${esc(p.description)}</p>
+        <span class="project-result">${esc(p.result)}</span>
+      </div>
+    </a>`).join("");
+
+  // Product creations
+  document.getElementById("creations-grid").innerHTML = d.creations.map(p => `
+    <a class="project-card" href="${esc(p.href)}" aria-label="${esc(p.title)}">
+      ${projectVisual(p.type, p.label, p.image)}
       <div class="project-copy">
         <div class="project-meta">${esc(p.label)}</div>
         <h3>${esc(p.title)}</h3>
