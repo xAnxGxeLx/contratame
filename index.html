@@ -116,6 +116,14 @@
   }
   .btn-pdf:hover { color: var(--accent-ink); border-color: var(--accent); transform: translateY(-1px); }
   .btn-pdf svg { width: 15px; height: 15px; }
+  @media (max-width: 640px) {
+    .topbar { gap: 8px; padding-inline: 12px; }
+    .brand { gap: 8px; }
+    .brand .who span { display: none; }
+    .controls { gap: 5px; }
+    .btn-pdf { width: 36px; height: 36px; padding: 0; justify-content: center; }
+    .btn-pdf span { display: none; }
+  }
 
   /* ---------- Layout ---------- */
   .page { max-width: 1080px; margin: 0 auto; padding: clamp(28px, 5vw, 64px) clamp(18px, 5vw, 56px) 90px; }
@@ -575,10 +583,10 @@ const WEB3FORMS_ACCESS_KEY = "61ebee47-3d38-4c8a-bd46-b0ce0b815035";
 /* ============ BILINGUAL CONTENT ============ */
 const DATA = {
   es: {
-    navrole: "Technical Lead | Applied AI Engineer",
+    navrole: "Technical Lead | .NET | IA aplicada",
     available: "Disponible para nuevos retos",
-    role: "Technical Lead | Software Architect | Applied AI Engineer",
-    summary: "Líder Técnico especializado en arquitectura de software, modernización de sistemas legacy, productos SaaS e ingeniería aplicada con IA. Experiencia liderando equipos multidisciplinarios, diseñando flujos de desarrollo asistidos por agentes y entregando soluciones con impacto en operaciones, productividad y escalabilidad. Actualmente lidero un equipo de desarrollo, opero un producto SaaS propio en producción y aplico IA para construir, documentar, validar y optimizar software.",
+    role: "Technical Lead | .NET | IA aplicada al desarrollo",
+    summary: "Líder técnico y desarrollador .NET con experiencia coordinando equipos de hasta 6 personas, modernizando sistemas legacy y automatizando procesos críticos. Actualmente lidero un equipo de 5 desarrolladores, impulso la adopción de GitHub y CI/CD y aplico IA para acelerar entregas, documentar conocimiento y mejorar la calidad del software. También desarrollo SWIPY, un producto SaaS independiente que opera en un negocio real.",
     location: "Apodaca, Nuevo León · México",
     reveal: "Solicitar contacto",
     hire: "Contrátame",
@@ -619,49 +627,34 @@ const DATA = {
     ],
     experience: [
       { title:"Technical Lead", co:"Préstamo Express", date:"Abr 2023 – Actualidad", points:[
-        "Lidero un equipo de 5 desarrolladores responsables de sistemas críticos para la operación financiera de la empresa.",
-        "Incrementé la velocidad y confiabilidad de las liberaciones implementando Git y GitHub como estándar organizacional, reduciendo fricción operativa y mejorando los procesos de desarrollo en aproximadamente 200%.",
-        "Diseñé y desarrollé un proceso ETL en Python para migración de datos críticos, garantizando continuidad operativa y minimizando riesgos durante la transición tecnológica.",
-        "Lideré iniciativas de modernización de sistemas legacy, reduciendo deuda técnica y mejorando la mantenibilidad de aplicaciones clave para el negocio.",
-        "Implementé mejoras de UX/UI que redujeron significativamente los tiempos de capacitación de usuarios internos y facilitaron la adopción de nuevas herramientas.",
-        "Establecí prácticas de revisión de código, mentoría técnica y estándares de desarrollo para mejorar calidad, consistencia y velocidad de entrega.",
-        "Diseñé flujos de ingeniería asistidos por IA con agentes de código, contexto de repositorio, búsqueda estructural, documentación y validación automatizada; los apliqué en .NET/Avalonia, TypeScript/Next.js y Godot/GDScript.",
-        "Apliqué IA para diagnosticar rendimiento y mantener trazabilidad técnica mediante perfiles, harnesses de prueba, builds, diff checks y revisión humana antes de integrar cambios."
+        "Lidero un equipo de 5 desarrolladores y tomo decisiones técnicas sobre sistemas críticos utilizados por soporte, contabilidad, sucursales y puntos de venta.",
+        "Transformé un esquema de código compartido por FTP en un flujo colaborativo con Git y GitHub; posteriormente automatizamos compilación, versionado y empaquetado mediante GitHub Actions, permitiendo escalar de un desarrollador a un equipo completo.",
+        "Diseñé un ETL en Python para la migración SIPE → VINO que procesa entre 2 y 3 GB por sucursal y redujo una ejecución aproximada de 12 horas a 20 minutos.",
+        "Unifiqué catálogos y migración en una sola solución e incorporé un tablero de conciliación que compara registros y totales entre las bases anterior y nueva para detectar diferencias antes del cierre.",
+        "Introduje agentes de IA para acelerar el desarrollo y ayudé a internalizar en 6 a 8 meses un sistema que llevaba años dependiendo de consultoría externa; además, desarrollé un asistente interno para consultar documentación y flujos de negocio."
       ]},
-      { title:"Founder & Product Engineer", co:"DeSaa Software", date:"2023 – Actualidad", points:[
-        "Fundé y opero una consultoría de software especializada en productos SaaS e integraciones empresariales.",
-        "Diseñé y desarrollé SWIPY POS SaaS, una plataforma POS comercial actualmente en producción y utilizada por clientes reales.",
-        "Construí una aplicación de escritorio moderna basada en .NET 8, SQLite y SQL Server con arquitectura preparada para crecimiento.",
-        "Desarrollé un panel multi-tenant en Next.js para administración de clientes, licencias y funcionalidades.",
-        "Implementé cobros electrónicos mediante Mercado Pago, automatizando procesos comerciales.",
-        "Diseñé pipelines de despliegue y actualización automática, reduciendo tiempos de mantenimiento y soporte.",
-        "Integré PostgreSQL y Supabase para soportar operaciones multiusuario y sincronización de datos.",
-        "Construí prototipos interactivos web y de videojuegos con Three.js, React/TypeScript y Godot, aplicando optimización de rendimiento y validación headless."
+      { title:"Product Engineer · Proyecto independiente", co:"SWIPY POS", date:"2023 – Actualidad", points:[
+        "Diseñé y desarrollé de forma integral un punto de venta SaaS en .NET 8, actualmente utilizado en la operación diaria de una tienda y disponible para descarga pública.",
+        "Implementé funciones premium, cobros reales mediante Mercado Pago y un panel de administración multiempresa en validación productiva.",
+        "Construí un flujo de reportes y actualizaciones automáticas que elimina la instalación manual por acceso remoto: diagnostico, corrijo y libero una nueva versión desde un proceso centralizado.",
+        "Consolidé ventas, inventario y administración en una sola aplicación orientada a reducir errores y facilitar la operación del negocio."
       ]},
-      { title:"Gerente de Proyecto", co:"APD SA de CV", date:"Sep 2021 – Sep 2022", points:[
-        "Dirigí proyectos de implementación tecnológica coordinando equipos técnicos y áreas de negocio.",
-        "Gestioné proyectos de software desde definición de alcance hasta puesta en producción.",
-        "Coordiné stakeholders técnicos y ejecutivos, asegurando alineación entre objetivos de negocio y ejecución tecnológica.",
-        "Implementé mecanismos de seguimiento, gestión de riesgos y control de entregables para mejorar la previsibilidad de los proyectos."
+      { title:"Gerente de Proyecto Técnico", co:"APD SA de CV", date:"Sep 2021 – Sep 2022", points:[
+        "Coordiné técnicamente entre 4 y 5 proyectos de software durante un año, liderando un equipo de hasta 6 desarrolladores.",
+        "Organicé código y documentación dispersos en repositorios GitHub, estableciendo control de versiones y trazabilidad para dar continuidad a los proyectos.",
+        "Di seguimiento a alcance, fechas, riesgos y entregables desde la planeación técnica hasta la puesta en producción."
       ]},
       { title:"Analista de Sistemas", co:"SuKarne", date:"Abr 2019 – Oct 2021", points:[
-        "Inicié como Analista de Sistemas brindando soporte a problemas SQL, soporte técnico de nivel 2 y apoyo en mantenimiento de equipos industriales, PLC y sistemas de cámaras.",
-        "Comprendí procesos operativos de planta y cadena de suministro al colaborar con áreas técnicas, usuarios finales y equipos de operación.",
-        "Administré módulos SAP ERP utilizados en procesos críticos de operación.",
-        "Optimicé el proceso de migración SQL automatizando y relacionando diferentes métodos de extracción de datos del sistema Innova para su envío al corporativo.",
-        "Diseñé reportes y análisis de datos para apoyar decisiones operativas y estratégicas.",
-        "Gestioné bases Oracle y MySQL utilizadas por distintas áreas del negocio.",
-        "Capacité usuarios finales, mejorando adopción tecnológica y eficiencia operativa."
+        "Automaticé la extracción y migración de datos del cierre de producción, reduciendo un proceso manual de aproximadamente 2 horas a entre 10 y 20 minutos.",
+        "Analicé y di trazabilidad a información operativa para producción y contabilidad, resolviendo incidencias de datos y apoyando el cierre diario.",
+        "Brindé soporte técnico continuo a la operación de planta, incluyendo SQL, computadoras, impresoras, cámaras y PLC, para atender fallas y mantener la continuidad operativa."
       ]}
     ],
     skillGroups: [
-      { label:"Arquitectura y Liderazgo", items:["Software Architecture","System Design","Technical Leadership","Team Management","Code Review","Software Delivery","Agile Development","Team Mentoring","Product Engineering"] },
-      { label:"Backend", items:["C#",".NET","ASP.NET MVC","Node.js","Express","Python","REST APIs"] },
-      { label:"Frontend", items:["React","Next.js","Angular","TypeScript","JavaScript","Bootstrap"] },
-      { label:"Bases de Datos", items:["SQL Server","PostgreSQL","Supabase","Oracle","MySQL","SQLite"] },
-      { label:"DevOps", items:["Git","GitHub","Docker","CI/CD","Release Engineering"] },
-      { label:"Ingeniería aplicada con IA", items:["LLM Applications","AI Agents","Prompt & Context Engineering","MCP & Tool Orchestration","Codebase-Aware Workflows","AI-Assisted Development","AI Validation & Guardrails","OCR Solutions","Claude","Codex"] },
-      { label:"Especialidades", items:["AI-Enabled Product Engineering","SaaS Platforms","Legacy Modernization","AI Solutions","ETL & Data Migration","DevOps & Release Engineering","Full Stack Development"] }
+      { label:"Liderazgo y entrega", items:["Technical Leadership","Team Management","Project Management","System Design","Legacy Modernization"] },
+      { label:"Desarrollo", items:["C#",".NET","ASP.NET MVC","Python","REST APIs","Angular","Vue.js","Visual Basic"] },
+      { label:"Plataforma y datos", items:["SQL Server","Git","GitHub","GitHub Actions","CI/CD"] },
+      { label:"IA aplicada", items:["AI-Assisted Development","AI Agents","Knowledge Assistants","Codex","Claude"] }
     ],
     education: [
       { degree:"Ingeniero en Sistemas Computacionales y Administrativos", school:"Universidad Juárez del Estado de Durango (UJED)", meta:"Licenciatura" }
@@ -669,13 +662,13 @@ const DATA = {
     certifications: [
       { degree:"Cisco Certified Network Associate (CCNA)", school:"Certificación de redes avalada por Cisco", meta:"Cisco" }
     ],
-    softSkills: ["Liderazgo técnico","Mentoría de equipos","Comunicación ejecutiva","Gestión de stakeholders","Toma de decisiones","Visión de producto"]
+    softSkills: ["Liderazgo técnico","Coordinación de equipos","Comunicación con negocio","Toma de decisiones"]
   },
   en: {
-    navrole: "Technical Lead | Applied AI Engineer",
+    navrole: "Technical Lead | .NET | Applied AI",
     available: "Open to new challenges",
-    role: "Technical Lead | Software Architect | Applied AI Engineer",
-    summary: "Technical Lead specialized in software architecture, legacy system modernization, SaaS products and applied AI engineering. Experienced leading multidisciplinary teams, designing agent-assisted development workflows and delivering solutions with measurable impact on operations, productivity and scalability. I currently lead a software development team, operate my own SaaS product in production and use AI to build, document, validate and optimize software.",
+    role: "Technical Lead | .NET | AI-Assisted Development",
+    summary: "Technical Lead and .NET developer experienced in coordinating teams of up to 6 people, modernizing legacy systems and automating business-critical processes. I currently lead a team of 5 developers, drive GitHub and CI/CD adoption, and apply AI to accelerate delivery, capture knowledge and improve software quality. I also build SWIPY, an independent SaaS product used by a real business.",
     location: "Apodaca, Nuevo León · Mexico",
     reveal: "Request contact",
     hire: "Hire me",
@@ -716,49 +709,34 @@ const DATA = {
     ],
     experience: [
       { title:"Technical Lead", co:"Préstamo Express", date:"Apr 2023 – Present", points:[
-        "Lead a team of 5 developers responsible for business-critical systems supporting financial operations.",
-        "Increased release speed and reliability by implementing Git and GitHub as the organizational standard, reducing operational friction and improving development processes by approximately 200%.",
-        "Designed and developed a Python ETL process for critical data migration, ensuring operational continuity and reducing risk during technology transition.",
-        "Led legacy system modernization initiatives, reducing technical debt and improving maintainability of key business applications.",
-        "Implemented UX/UI improvements that significantly reduced internal user training time and accelerated adoption of new tools.",
-        "Established code review practices, technical mentoring and development standards to improve quality, consistency and delivery speed.",
-        "Designed AI-assisted engineering workflows using coding agents, repository context, structural search, documentation and automated validation across .NET/Avalonia, TypeScript/Next.js and Godot/GDScript.",
-        "Used AI to diagnose performance and maintain technical traceability through profiling, test harnesses, builds, diff checks and human review before integrating changes."
+        "Lead a team of 5 developers and make technical decisions for business-critical systems used by support, accounting, branches and point-of-sale operations.",
+        "Replaced FTP-based source sharing with a collaborative Git and GitHub workflow; we later automated builds, versioning and packaging with GitHub Actions, enabling the department to scale from one developer to a full team.",
+        "Designed a Python ETL for the SIPE → VINO migration that processes 2–3 GB per branch and reduced an estimated 12-hour run to 20 minutes.",
+        "Unified catalog preparation and migration into one solution and added a reconciliation dashboard that compares record-level data and totals between the old and new databases before closing a migration.",
+        "Introduced AI coding agents to accelerate delivery and helped bring in-house within 6–8 months a system that had depended on external consulting for years; I also built an internal assistant for querying documentation and business workflows."
       ]},
-      { title:"Founder & Product Engineer", co:"DeSaa Software", date:"2023 – Present", points:[
-        "Founded and operate a software consultancy focused on SaaS products and enterprise integrations.",
-        "Designed and developed SWIPY POS SaaS, a commercial POS platform currently in production and used by real customers.",
-        "Built a modern desktop application based on .NET 8, SQLite and SQL Server with an architecture prepared for growth.",
-        "Developed a multi-tenant dashboard in Next.js for customer, license and feature administration.",
-        "Implemented electronic payments through Mercado Pago, automating commercial processes.",
-        "Designed deployment and automatic update pipelines, reducing maintenance and support time.",
-        "Integrated PostgreSQL and Supabase to support multi-user operations and data synchronization.",
-        "Built interactive web and game prototypes with Three.js, React/TypeScript and Godot, applying performance optimization and headless validation."
+      { title:"Product Engineer · Independent Project", co:"SWIPY POS", date:"2023 – Present", points:[
+        "Designed and built an end-to-end .NET 8 SaaS point-of-sale product currently used in the daily operation of one store and available for public download.",
+        "Implemented premium features, live Mercado Pago transactions and a multi-business administration dashboard under production validation.",
+        "Built issue-reporting and automatic-update workflows that removed manual remote installations: I can diagnose, fix and release a new version through a centralized process.",
+        "Consolidated sales, inventory and administration into one application designed to reduce errors and simplify store operations."
       ]},
-      { title:"Project Manager", co:"APD SA de CV", date:"Sep 2021 – Sep 2022", points:[
-        "Led technology implementation projects coordinating technical teams and business areas.",
-        "Managed software projects from scope definition through production deployment.",
-        "Coordinated technical and executive stakeholders, ensuring alignment between business objectives and technology execution.",
-        "Implemented tracking, risk management and deliverable control mechanisms to improve project predictability."
+      { title:"Technical Project Manager", co:"APD SA de CV", date:"Sep 2021 – Sep 2022", points:[
+        "Technically coordinated 4–5 software projects over one year, leading a team of up to 6 developers.",
+        "Consolidated scattered code and documentation into GitHub repositories, establishing version control and traceability to support project continuity.",
+        "Tracked scope, schedules, risks and deliverables from technical planning through production release."
       ]},
       { title:"Systems Analyst", co:"SuKarne", date:"Apr 2019 – Oct 2021", points:[
-        "Started as a Systems Analyst supporting SQL issues, level 2 technical support and maintenance assistance for industrial equipment, PLCs and camera systems.",
-        "Built understanding of plant and supply-chain operations by collaborating with technical areas, end users and operations teams.",
-        "Administered SAP ERP modules used in critical operational processes.",
-        "Optimized the SQL migration process by automating and connecting multiple data extraction methods from the Innova system for corporate data delivery.",
-        "Designed reports and data analysis to support operational and strategic decisions.",
-        "Managed Oracle and MySQL databases used by multiple business areas.",
-        "Trained end users, improving technology adoption and operational efficiency."
+        "Automated production-close data extraction and migration, reducing a manual process from approximately 2 hours to 10–20 minutes.",
+        "Analyzed and traced operational information for production and accounting, resolving data incidents and supporting daily closing activities.",
+        "Provided ongoing plant operations support across SQL, computers, printers, cameras and PLCs to resolve failures and maintain operational continuity."
       ]}
     ],
     skillGroups: [
-      { label:"Architecture & Leadership", items:["Software Architecture","System Design","Technical Leadership","Team Management","Code Review","Software Delivery","Agile Development","Team Mentoring","Product Engineering"] },
-      { label:"Backend", items:["C#",".NET","ASP.NET MVC","Node.js","Express","Python","REST APIs"] },
-      { label:"Frontend", items:["React","Next.js","Angular","TypeScript","JavaScript","Bootstrap"] },
-      { label:"Databases", items:["SQL Server","PostgreSQL","Supabase","Oracle","MySQL","SQLite"] },
-      { label:"DevOps", items:["Git","GitHub","Docker","CI/CD","Release Engineering"] },
-      { label:"Applied AI Engineering", items:["LLM Applications","AI Agents","Prompt & Context Engineering","MCP & Tool Orchestration","Codebase-Aware Workflows","AI-Assisted Development","AI Validation & Guardrails","OCR Solutions","Claude","Codex"] },
-      { label:"Specialties", items:["AI-Enabled Product Engineering","SaaS Platforms","Legacy Modernization","AI Solutions","ETL & Data Migration","DevOps & Release Engineering","Full Stack Development"] }
+      { label:"Leadership & Delivery", items:["Technical Leadership","Team Management","Project Management","System Design","Legacy Modernization"] },
+      { label:"Development", items:["C#",".NET","ASP.NET MVC","Python","REST APIs","Angular","Vue.js","Visual Basic"] },
+      { label:"Platform & Data", items:["SQL Server","Git","GitHub","GitHub Actions","CI/CD"] },
+      { label:"Applied AI", items:["AI-Assisted Development","AI Agents","Knowledge Assistants","Codex","Claude"] }
     ],
     education: [
       { degree:"B.Eng. in Computer & Administrative Systems", school:"Universidad Juárez del Estado de Durango (UJED)", meta:"Bachelor's degree" }
@@ -766,7 +744,7 @@ const DATA = {
     certifications: [
       { degree:"Cisco Certified Network Associate (CCNA)", school:"Networking certification backed by Cisco", meta:"Cisco" }
     ],
-    softSkills: ["Technical leadership","Team mentoring","Executive communication","Stakeholder management","Decision-making","Product mindset"]
+    softSkills: ["Technical leadership","Team coordination","Business communication","Decision-making"]
   }
 };
 
